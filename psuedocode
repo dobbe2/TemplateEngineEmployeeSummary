@@ -1,0 +1,34 @@
+psuedocode
+
+create  a directory strutture to look like this
+
+lib/           // classes and helper code
+output/        // rendered output
+templates/     // HTML template(s)
+test/          // jest tests
+  Employee.test.js
+  Engineer.test.js
+  Intern.test.js
+  Manager.test.js
+app.js         // Runs the application
+
+
+create classes inside lib
+main class Employee
+ class Manager
+ class Intern
+ class Engineer
+
+ create interaction with the user (input/output)
+ 
+ store answers in an container (an array of objects)
+
+create templates for each class
+ 
+main.html and cards (different for each type of Employee)
+
+build the main html
+    -call array of employees
+    -add them each in pieces
+    -append each one
+
