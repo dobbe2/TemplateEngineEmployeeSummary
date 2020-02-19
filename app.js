@@ -6,7 +6,7 @@ const Manager = require("./lib/Manager");
 const inquirer = require("inquirer");
 const fs = require('fs');
 
-// let data = {};
+const employeeArray = [];
 
 let EmployeeQuestions = [
    {
@@ -50,21 +50,36 @@ let internQuestions = [
    }
 ];
 //create interaction with the user
+//get manager info first
 
+// function getManagerData(){
+//    inquirer
+//    .prompt(EmployeeQuestions)
+//    .then(function(data){
+//      employeeArray.push(new Manager(data.name, data.ID, data.email, data.officeNumber))
+//    })
+// }
+
+// getManagerData();
 function getEmployeeData(){
-   inquirer.prompt(EmployeeQuestions).then(function({name, ID, email, role}){
-      console.log(name, ID, email, role);
-      if (role === "Engineer"){
+   inquirer
+   .prompt(EmployeeQuestions)
+   .then(function(data){
+      console.log(data.role);
+      employeeArray.push(new Engineer(data.name, data.ID, data.email, data.github));
+      if (data.role === "Engineer"){
          inquirer
          .prompt(engineerQuestions)
-         .then(function({github}){
-            console.log(name, ID, email, role, github)
+         .then(function(data){
+            employeeArray.push(new Engineer(data.role, data.github));
+            console.log(employeeArray)
          });
-      } else if(role === "Manager"){
+      } else if(data.role === "Manager"){
             inquirer
             .prompt(managerQuestions)
             .then(function({officeNumber}){
-               console.log(name, ID, email, role, officeNumber)
+               
+               console.log(data.name, data.ID, data.email, data.role, data.officeNumber)
          });
       } else {
             inquirer
@@ -72,10 +87,11 @@ function getEmployeeData(){
             .then(function({school}){
                console.log(name, ID, email, role, school)
             });
-        console.log(role) 
-   }
-});}
-
+         console.log(role) 
+         }
+      }
+   );
+}
 
 getEmployeeData();
 //inquiere array object create  y a class
