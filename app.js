@@ -1,4 +1,3 @@
-//import the classes
 const Employee= require("./lib/Employee");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -11,39 +10,41 @@ const engineerHTML = require("./templates/engineer.js");
 const internHTML = require("./templates/intern.js")
 const employeeArray = [];
 
-
-let addMoreEmployees = [
+//Initial question, if answered no, HTML is generated
+let addEmployees = [
    {
-      message: "Do you want to add more employees to your project?",
-      name: "employee",
-      choices: ["Engineer", "Intern", "No More"],
+      message: "Do you want to add employees to your project?",
+      name: "newEmp",
+      choices: ["Yes", "No"],
       type: "list"
    }
 ]
+
+//Questions to get the data for each Employee type
 let EmployeeQuestions = [
    {
-      message: "What is your role on the project?",
+      message: "What is their role on the project?",
       name: "role",
       type: "list",
-      choices: ["Engineer", "Manager", "Intern", "No"]
+      choices: ["Engineer", "Manager", "Intern"]
    },
    {
-      message: "What is your name?",
+      message: "What is their name?",
       name: "name",
       type: "input",
    },
    {
-      message: "What is your ID number?",
+      message: "What is their ID number?",
       name: "ID",
       type: "input"
    },
    {
-      message: "What is your email address?",
+      message: "What is their email address?",
       name: "email",
       type: "input"
    },
    {
-      message: "What is your GitHub Username?",
+      message: "What is their GitHub Username?",
       name: "github",
       type: "input",
       when: function(answer){
@@ -51,7 +52,7 @@ let EmployeeQuestions = [
       }
    },
    {
-      message: "What school are you attending?",
+      message: "What school are they attending?",
       name: "school",
       type: "input",
       when: function(answer){
@@ -59,7 +60,7 @@ let EmployeeQuestions = [
       }
    },
    {
-      message: "What is your Office Number?",
+      message: "What is their Office Number?",
       name: "officenumber",
       type: "input",
       when: function(answer){
@@ -68,42 +69,54 @@ let EmployeeQuestions = [
    },
 ];
 
+//user response either gets more employees, or generates HTML
+function addMoreEmployees(){
+   inquirer.prompt(addEmployees)
+   .then(function(data){
+      if (data.newEmp === "Yes"){
+         getEmployeeData();
+      }
+      else{
+         buildTeam();
+      }
+   })
+}
+
+//this function gets all data about employee and saves into employee array
 function getEmployeeData(){
    inquirer.prompt(EmployeeQuestions)
    .then(function(data){
-      console.log(data)
       let emp;
       switch (data.role){
 
          case 'Manager':
              emp = new Manager(data.name,data.ID, data.email,data.officenumber)
             employeeArray.push(emp)
-            getEmployeeData()
+            addMoreEmployees()
             break;
 
          case 'Engineer':
              emp = new Engineer(data.name,data.ID, data.email,data.github)
             employeeArray.push(emp)
-            getEmployeeData()
+            addMoreEmployees()
             break;
+
          case 'Intern':
             emp = new Intern(data.name,data.ID, data.email,data.school)
             employeeArray.push(emp)
-            getEmployeeData()
+            addMoreEmployees()
             break;  
-
-         case 'No':
-             buildTeam();
-             break;
       }
    })
 }
-getEmployeeData();
 
+//the call to start the app
+addMoreEmployees();
+
+//here is where the employee array is turned into html dynamically
 function buildTeam(){
-   console.log(employeeArray);
    let teamHTML = mainHTML()
-   employeeArray.map(emp=>{
+   employeeArray.map(emp => {
       let role = emp.getRole()
 
       switch(role){
@@ -118,18 +131,16 @@ function buildTeam(){
          case 'Intern':
             teamHTML += internHTML(emp)
             break;
-
-
       }
-
    })
+   //adding the closing tags for the htnml document
    teamHTML+= `
-   </div>
-   </body>
+         </div>
+      </body>
    </html>`
-   console.log(teamHTML)
 
-   fs.writeFile("team.html", teamHTML, function(err, result){
+   //here we write the file into the output directory
+   fs.writeFile("./output/team.html", teamHTML, function(err, result){
          if (err) {
             return console.log(err);
          }
