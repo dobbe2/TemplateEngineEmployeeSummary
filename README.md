@@ -20,7 +20,7 @@ The HTML will be populated with the following:
 
 ## Application in action
 
-![gif app](./assets/Developer-Profile-Generator.gif)
+![gif app](./assets/Template_Engine_Generator.gif)
 
 
 ## NPM's and Libraries Used:
