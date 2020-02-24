@@ -6,50 +6,43 @@ function mainHtml(){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Template Engine</title>
-    <link rel="stylesheet" href="style.css">
-    <style>* {
-        box-sizing: border-box;
+    <link href="https://fonts.googleapis.com/css?family=Fjalla+One&display=swap" rel="stylesheet">
+    <style>
+    * { 
+        font-family: 'Fjalla One';
     }
-    
+    html {
+        background-color: rgb(214, 214, 214);
+    }
     header {
         color: white;
-        background-color: crimson;
+        background-color: #25274D;
         text-align: center;
         padding: 25px;
-        margin-bottom: 30px;
+        margin: -20px -20px 10px -20px;
     
     }
     
-    .col {
-        float: left;
-        width: 20%;
-        padding: 0 10px;
+    .cards {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-gap: 1rem;
     }
-    
-    .row {
-        margin: 0 -5px;
-    }
-    
-    .row:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-    
+
     .card {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         padding: 16px;
         text-align: center;
-        background-color: #f1f1f1;
+        background-color: #2E9CCA;
     }
-    
-    @media screen and (max-width: 600px) {
-        .col {
-            width: 100%;
-            display: block;
-            margin-bottom: 20px;
-        }
-    }</style>
+    @media (min-width: 600px) {
+        .cards { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 900px) {
+        .cards { grid-template-columns: repeat(3, 1fr); }
+    }
+    </style>
 </head>
 <body>
     
@@ -57,7 +50,7 @@ function mainHtml(){
     <h1>My Team</h1>
 </header>
 
-<div class="conatiner">
+<div class="cards">
 `
 }
 module.exports = mainHtml
